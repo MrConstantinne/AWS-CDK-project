@@ -10,11 +10,15 @@ import { PolicyStatement } from 'aws-cdk-lib/lib/aws-iam';
 export class SpaceStack extends Stack {
 
     private api = new RestApi(this, 'SpaceApi');
-    private spacesTables = new GenericTable(
-        'SpacesTable',
-        'spaceId',
-        this,
-    );
+    private spacesTable = new GenericTable(this, {
+        tableName: 'SpacesTable',
+        primaryKey: 'spaceId',
+        createLambdaPath: 'Create',
+        readLambdaPath: 'Read',
+        updateLambdaPath: 'Update',
+        deleteLambdaPath: 'Delete',
+        secondaryIndexes: ['location'],
+    });
 
     constructor(scope: Construct, id: string, props: StackProps) {
         super(scope, id, props);
@@ -43,6 +47,12 @@ export class SpaceStack extends Stack {
         const helloLambdaIntegration = new LambdaIntegration(helloLambdaNodeJS);
         const helloLambdaResource = this.api.root.addResource('hello');
         helloLambdaResource.addMethod('GET', helloLambdaIntegration);
+
+        const spaceResources = this.api.root.addResource('spaces');
+        spaceResources.addMethod('POST', this.spacesTable.createLambdaIntegration);
+        spaceResources.addMethod('GET', this.spacesTable.readLambdaIntegration);
+        spaceResources.addMethod('PUT', this.spacesTable.updateLambdaIntegration);
+        spaceResources.addMethod('DELETE', this.spacesTable.deleteLambdaIntegration);
     }
 }
 
