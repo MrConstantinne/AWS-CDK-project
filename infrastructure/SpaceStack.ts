@@ -23,7 +23,14 @@ export class SpaceStack extends Stack {
     constructor(scope: Construct, id: string, props: StackProps) {
         super(scope, id, props);
 
-        // ESModules bundles
+        const spaceResources = this.api.root.addResource('spaces');
+        spaceResources.addMethod('POST', this.spacesTable.createLambdaIntegration);
+        spaceResources.addMethod('GET', this.spacesTable.readLambdaIntegration);
+        spaceResources.addMethod('PUT', this.spacesTable.updateLambdaIntegration);
+        spaceResources.addMethod('DELETE', this.spacesTable.deleteLambdaIntegration);
+
+        // ----- ESModules bundles -----
+        
         const helloLambdaNodeJS = new NodejsFunction(this, 'helloLambdaNodeJS', {
             entry: join(__dirname, '..', 'services', 'node-lambda', 'hello.ts'),
             handler: 'handler',
@@ -37,20 +44,8 @@ export class SpaceStack extends Stack {
         const helloLambdaResource = this.api.root.addResource('hello');
         helloLambdaResource.addMethod('GET', helloLambdaIntegration);
 
-        const spaceResources = this.api.root.addResource('spaces');
-        spaceResources.addMethod('POST', this.spacesTable.createLambdaIntegration);
-        spaceResources.addMethod('GET', this.spacesTable.readLambdaIntegration);
-        spaceResources.addMethod('PUT', this.spacesTable.updateLambdaIntegration);
-        spaceResources.addMethod('DELETE', this.spacesTable.deleteLambdaIntegration);
+        // ----- Webpack bundles -----
 
-        // JS
-        const helloLambda = new LambdaFunction(this, 'helloLambda', {
-            runtime: Runtime.NODEJS_14_X,
-            code: Code.fromAsset(join(__dirname, '..', 'services', 'hello')),
-            handler: 'hello.main',
-        });
-
-        // Webpack bundles
         const helloLambdaWebpack = new LambdaFunction(this, 'helloLambdaWebpack', {
             runtime: Runtime.NODEJS_14_X,
             code: Code.fromAsset(join(__dirname, '..', 'build', 'nodeHelloLambda')),
