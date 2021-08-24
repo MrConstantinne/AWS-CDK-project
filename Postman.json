@@ -1,0 +1,136 @@
+{
+  "info": {
+    "_postman_id": "1dc72877-04ed-49cf-bfa0-e066bb59ba7a",
+    "name": "AWS-CDK",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Best\",\n    \"location\": \"Paris\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/spaces",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "spaces"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find By GUID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/spaces?spaceId={{GUID}}",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "spaces"
+          ],
+          "query": [
+            {
+              "key": "spaceId",
+              "value": "{{GUID}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find By Params",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/spaces?location=Paris",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "spaces"
+          ],
+          "query": [
+            {
+              "key": "location",
+              "value": "Paris"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"location\": \"Moscow\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/spaces?spaceId={{GUID}}",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "spaces"
+          ],
+          "query": [
+            {
+              "key": "spaceId",
+              "value": "{{GUID}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/spaces?spaceId={{GUID}}",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "spaces"
+          ],
+          "query": [
+            {
+              "key": "spaceId",
+              "value": "{{GUID}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

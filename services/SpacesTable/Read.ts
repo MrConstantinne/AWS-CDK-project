@@ -1,16 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
-import {
-    APIGatewayProxyEvent,
-    APIGatewayProxyEventQueryStringParameters,
-    APIGatewayProxyResult,
-    Context,
-} from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyEventQueryStringParameters, APIGatewayProxyResult } from 'aws-lambda';
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const PRIMARY_KEY = process.env.PRIMARY_KEY;
 const dbClient = new DynamoDB.DocumentClient();
 
-export const handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const result: APIGatewayProxyResult = {
         statusCode: 200,
         body: '',
