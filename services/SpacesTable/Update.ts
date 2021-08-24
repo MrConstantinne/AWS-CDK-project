@@ -13,24 +13,28 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context): Pr
     const requestBody = typeof event.body === 'object' ? event.body : JSON.parse(event.body);
     const spaceId = event.queryStringParameters?.[PRIMARY_KEY];
 
-    if (requestBody && spaceId) {
+    try {
         const requestBodyKey = Object.keys(requestBody)[0];
         const requestBodyValue = requestBody[requestBodyKey];
-        const updateResult = dbClient.update({
-            TableName: TABLE_NAME,
-            Key: {
-                [PRIMARY_KEY]: spaceId,
-            },
-            UpdateExpression: 'set #zzzNew = :new',
-            ExpressionAttributeValues: {
-                ':new': requestBodyValue,
-            },
-            ExpressionAttributeNames: {
-                'zzzNew': requestBodyKey,
-            },
-            ReturnValues: 'UPDATED_NEW',
-        });
-        result.body = JSON.stringify(updateResult);
+        if (requestBody && spaceId) {
+            const updateResult = await dbClient.update({
+                TableName: TABLE_NAME,
+                Key: {
+                    [PRIMARY_KEY]: spaceId,
+                },
+                UpdateExpression: 'set #zzzNew = :new',
+                ExpressionAttributeValues: {
+                    ':new': requestBodyValue,
+                },
+                ExpressionAttributeNames: {
+                    '#zzzNew': requestBodyKey,
+                },
+                ReturnValues: 'UPDATED_NEW',
+            }).promise();
+            result.body = JSON.stringify(updateResult);
+        }
+    } catch (error) {
+        result.body = error.message;
     }
     return result;
 };
