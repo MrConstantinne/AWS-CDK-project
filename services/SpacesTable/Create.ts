@@ -8,7 +8,7 @@ const dbClient = new DynamoDB.DocumentClient();
 export const handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
     const result: APIGatewayProxyResult = {
         statusCode: 200,
-        body: 'Hello DynamoDB',
+        body: '',
     };
 
     const item = typeof event.body === 'object' ? event.body : JSON.parse(event.body);
