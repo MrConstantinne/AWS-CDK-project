@@ -1,8 +1,8 @@
+import { join } from 'path';
 import { Stack } from 'aws-cdk-lib';
-import { AttributeType, Table } from 'aws-cdk-lib/lib/aws-dynamodb';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { LambdaIntegration } from 'aws-cdk-lib/lib/aws-apigateway';
-import { join } from 'path';
+import { AttributeType, Table } from 'aws-cdk-lib/lib/aws-dynamodb';
 
 export interface TableProps {
     tableName: string,
@@ -15,9 +15,9 @@ export interface TableProps {
 }
 
 export class GenericTable {
-    private readonly stack: Stack;
     private table: Table;
     private props: TableProps;
+    private readonly stack: Stack;
 
     private createLambda: NodejsFunction | undefined;
     private readLambda: NodejsFunction | undefined;
