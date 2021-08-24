@@ -30,6 +30,7 @@
   "dependencies": {
     "@aws-cdk/aws-s3": "^1.119.0",
     "@aws-cdk/core": "1.119.0",
+    "aws-sdk": "^2.974.0",
     "source-map-support": "^0.5.16"
   }
 }
